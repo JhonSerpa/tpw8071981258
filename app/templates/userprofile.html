@@ -44,7 +44,14 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-6" style="align-content: center">
                     <p><h5>Profile Image</h5></p>
-                    <img alt="" src="{{ user.img.url }}">
+                    <img width="200px" height="200px" alt="" src="{{ user.img.url }}">
+                    {% if editform %}
+                        <form action="?userid={{ user.id }}"  method="post" class="form-container" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ editform }}
+                            <input type="submit" value="Modify!" class="btn">
+                        </form>
+                    {% endif %}
                 </div>
             </div>
             <div class="row">
@@ -89,5 +96,6 @@
     {% else %}
         Nooo
     {% endif %}
+
 {% endblock %}
 

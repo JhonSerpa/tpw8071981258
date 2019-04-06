@@ -253,7 +253,7 @@
                     </div>
                     <div class="col-md-10">
                         <p>
-                            <a class="float-left" href="{% url 'userprofile' %}?userid={{ review.author.id }}"><strong>{{ review.author }}</strong></a>
+                            <a class="float-left" href="{% url 'userprofile' %}?userid={{ review.author_id }}"><strong>{{ review.author.authentication.username }}</strong></a>
                         </p>
                         <div class="clearfix"></div>
                         <p>{{ review.review }}</p>

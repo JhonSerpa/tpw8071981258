@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 
+{% load util %}
 
 {% block content %}
     {% if error %}
@@ -10,22 +11,43 @@
 
     <form action="." method="post">
         {% csrf_token %}
-        {{ form.as_table}}
-        <input type="submit" value="Search">
+        <table class="table-striped table" style="width: auto">
+            <tr>
+                <th>{{ form.Type.label }}</th>
+                <td>{{ form.Type }}</td>
+            </tr>
+            <tr>
+                <th>{{ form.Search.label }}</th>
+                <td>{{ form.Search }}</td>
+            </tr>
+        </table>
+
+        <input class="btn btn-primary" type="submit" value="Search">
     </form>
 
     <br>
 
-    <table border="1">
+    <table class="table">
             <tr>
+                <th>Picture</th>
                 <th>Nome</th>
                 <th>Info</th>
+                <th></th>
             </tr>
+
+
             {% for result in query %}
                 <tr>
-                        <td>{{ result.name }}</td>
-                        <td>{{ result.description }}</td>
+                        <td><img width="100px" height="100px" src="{{ result.img.url }}"></td>
 
+                        {% if result|get_type == 'Media' %}
+                            <td><a href="{% url 'reviews' %}?mediaid={{ result.id }}">{{ result.name }}</a></td>
+                        {% else %}
+                        <td>{{ result.name }}</td>
+                        {% endif %}
+
+
+                        <td>{{ result.description }}</td>
                 </tr>
             {% endfor %}
         </table>

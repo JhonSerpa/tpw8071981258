@@ -8,13 +8,30 @@
 
     {% endif %}
 
-    {% if inserted %}
-        <p> Wee!</p>
-    {% endif %}
-    <form action="." method="post">
+    <form action="." method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Insert">
+        <table class="table-striped table" style="width: auto">
+            <tr>
+                <th>{{ form.name.label }}</th>
+                <td>{{ form.name }}</td>
+            </tr>
+            <tr>
+                <th>{{ form.surname.label }}</th>
+                <td>{{ form.surname }}</td>
+            </tr>
+            <tr>
+                <th>{{ form.img.label }}</th>
+                <td>{{ form.img }}</td>
+            </tr>
+        </table>
+
+        <input class="btn btn-primary" type="submit" value="Insert">
     </form>
+
+
+    <p></p>
+    {% if inserted %}
+        <h2> {{ inserted }} inserted! Success! </h2>
+    {% endif %}
 
 {% endblock %}

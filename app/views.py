@@ -1,7 +1,7 @@
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.http import HttpRequest
 from datetime import datetime
-from app.forms import AddReviewForm
+from app.forms import AddReviewForm, SignUpForm, EditProfile
 from app.models import Review, User
 from django.db.models import Avg
 from django.http import HttpResponseNotFound
@@ -18,7 +18,17 @@ from app.models import Media, MediaAuthor
 def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
-    movies = Media.objects.all()[:10]
+
+    best_reviews = Review.objects.values("media_id").annotate(
+        the_count=Count("media_id")
+    ).order_by(
+        "-the_count"
+    )[:9]
+
+    if len(best_reviews) > 8:
+        movies = Media.objects.filter(id__in=best_reviews.values("media_id"))
+    else:
+        movies = Media.objects.all()[:9]
 
     form = SearchData(request.POST or None)
     if 'Search' in request.POST:
@@ -94,7 +104,8 @@ def reviews(request):
                 WHEN WE REGISTER IT DOENSN'T CREATE A USER IN THE DB BUT IN AUTHENTICATION
             
             """
-            new_review = Review.objects.create(author=uu.objects.get(username=request.user),
+
+            new_review = Review.objects.create(author=User.objects.get(authentication_id=uu.objects.get(username=request.user).id),
                                            media=Media.objects.get(id=media_id), rate=rate, review=review)
             new_review.save()
 
@@ -142,36 +153,25 @@ def add_media_page(request):
     #if not request.user.is_authenticated or request.user.username != 'admin':
     #    return redirect('/login')
 
-    form = MediaInsertForm(request.POST)
+    form = MediaInsertForm(request.POST, request.FILES)
 
-    if 'Name' in request.POST:
-        insert = request.POST
-        if insert["Name"] and insert["Description"] and insert["Author"] and insert["Img"]:
-            a = Media(
-                name=insert["Name"],
-                description=insert["Description"],
-                author=MediaAuthor.objects.get(id=insert["Author"]),
-                img=insert["Img"]
-                )
-            a.save()
-            return render(request, 'addmedia.html', {'inserted': a.name, 'form': form})
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return render(request, 'addmedia.html', {'inserted': form.cleaned_data["name"], 'form': form})
         else:
             return render(request, 'addmedia.html', {'error': True, 'form': form})
     else:
         return render(request, 'addmedia.html', {'error': False, 'form': form})
 
-def add_author_page(request):
-    #if not request.user.is_authenticated or request.user.username != 'admin':
-    #    return redirect('/login')
 
+def add_author_page(request):
     form = AuthorInsertForm(request.POST, request.FILES)
 
-    if 'Name' in request.POST:
-        insert = request.POST
-        if insert["Name"] and insert["Surname"] and insert["Img"]:
-            a = MediaAuthor(name=insert["Name"], surname=insert["Surname"], img=insert["Img"])
-            a.save()
-            return render(request, 'addauthor.html', {'inserted': a.name, 'form': form})
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return render(request, 'addauthor.html', {'inserted': form.cleaned_data["name"], 'form': form})
         else:
             return render(request, 'addauthor.html', {'error': True, 'form': form})
     else:
@@ -219,17 +219,21 @@ def make_distributions(number_total, five, four, three, two, one):
              }
 
 def register(request):
+
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
+
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
+            user_profile = User(authentication_id=user.id)
+            user_profile.save()
             login(request, user)
             return redirect('home')
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
     return render(request, 'register.html', {'form': form})
 
 
@@ -240,9 +244,29 @@ def userprofile(request):
     the_user = User.objects.get(id=user_id)
 
     reviews = Review.objects.filter(author_id=user_id)
-    print(reviews)
+
+    print(request.POST)
+    print(request.method)
+
+    form = EditProfile(request.POST, request.FILES)
+    if request.method == 'POST':
+
+        print(form.errors)
+        if form.is_valid():
+            print(request.FILES)
+            usr = the_user
+            usr.img = request.FILES["img"]
+            usr.save()
+    try:
+
+        print("request.user: " + str(request.user))
+        print("User get: " + the_user.authentication.username)
+
+        form = EditProfile if str(request.user) == str(the_user.authentication.username) else ''
+    except User.DoesNotExist:
+        form = ''
 
     if user_id:
-        return render(request, 'userprofile.html', {'user': the_user, 'reviews': reviews})
+        return render(request, 'userprofile.html', {'user': the_user, 'reviews': reviews, 'editform': form})
     else:
         return render(request, 'userprofile.html', {})

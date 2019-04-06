@@ -29,7 +29,14 @@
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'home' %}">Home</a>
           </li>
-
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'search' %}">Search</a>
+            </li>
+            {% if app_user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'userprofile' %}?userid={{ app_user.id }}">My profile</a>
+                </li>
+            {% endif %}
             {% if isadmin %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'addauthor' %}">Add Authors</a>

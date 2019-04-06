@@ -33,7 +33,7 @@ class User(models.Model):
 
 
 class Review(models.Model):
-    author = models.ForeignKey(uu, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     media = models.ForeignKey(Media, on_delete=models.CASCADE)
     rate = models.PositiveIntegerField(default=0)
     review = models.CharField(max_length=1000)

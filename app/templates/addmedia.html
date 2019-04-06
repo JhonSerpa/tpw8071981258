@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+    {% if error %}
+
+        <p style="color: #1c7430; background: #0c5460">Error: Insert was incorrectly done! Name and eMail must be >0 characters.</p>
+
+    {% endif %}
+
+    {% if inserted %}
+        <p> Wee!</p>
+    {% endif %}
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Insert">
+    </form>
+
+{% endblock %}

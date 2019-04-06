@@ -1,0 +1,199 @@
+html {
+    background: #232323
+}
+
+#moview a:hover {
+    background-color: #4CAF50;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.demo-item {
+    text-align: center;
+    height: 100%;
+
+}
+
+.demo-item .image {
+    display: block;
+    position: relative;
+    transition: all 0.3s ease 0s;
+    height: 100%;
+
+}
+
+.demo-item .image::after {
+    background-color: #0056ff;
+    content: "";
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.demo-item:hover .image {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px);
+    height: 100%;
+
+}
+
+.demo-item:hover .image::after {
+    opacity: 0.8;
+    height: 100%;
+
+}
+
+.demo-item .image i {
+    border: 2px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 20px;
+    height: 100%;
+    left: 50%;
+    line-height: 56px;
+    margin-left: -30px;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transition: all 0.3s ease 0s;
+    width: 100%;
+    z-index: 9;
+}
+
+.demo-item:hover .image i {
+    opacity: 1;
+    margin-top: -30px;
+
+}
+
+.demo-item .image i:hover {
+    border: 2px solid #ffffff;
+    background-color: #ffffff;
+    color: #0056ff;
+
+}
+
+.demo-item .image img {
+    width: 100%;
+
+}
+
+.demo-item .title {
+    font-size: 18px;
+    font-weight: 400;
+    margin: 30px 0 0;
+    text-transform: uppercase;
+}
+
+.demo-item .title a {
+    color: #1d2124;
+    display: block;
+    font-weight: bold;
+    padding: 5px;
+    text-decoration: none;
+
+}
+
+.demo-item .title a:hover {
+    color: #0056ff;
+
+}
+
+.demo-item-image a {
+    display: block;
+
+}
+
+.demo-item-image a img {
+    width: 100%;
+}
+
+.demo-item-content h4 {
+    font-size: 36px;
+    line-height: 40px;
+    color: #151515;
+    border-bottom: 3px solid #151515;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.demo-item-content p {
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 400;
+    color: #151515;
+    max-width: 300px;
+}
+
+.demo-item-content a {
+    margin-top: 30px;
+}
+
+#button_demo {
+    height: 30%;
+}
+
+/*
+Rating
+ */
+* {
+    box-sizing: border-box;
+}
+
+
+.fa {
+    font-size: 25px;
+}
+
+.checked {
+    color: orange;
+}
+
+/* Three column layout */
+.side {
+    float: left;
+    width: 15%;
+    margin-top: 10px;
+}
+
+.middle {
+    float: left;
+    width: 70%;
+    margin-top: 10px;
+}
+
+/* Place text to the right */
+.right {
+    text-align: right;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* The bar container */
+.bar-container {
+    width: 100%;
+    background-color: #f1f1f1;
+    text-align: center;
+    color: white;
+}
+
+
+/* Responsive layout - make the columns stack on top of each other instead of next to each other */
+@media (max-width: 400px) {
+    .side, .middle {
+        width: 100%;
+    }
+
+    /* Hide the right column on small screens */
+    .right {
+        display: none;
+    }
+}

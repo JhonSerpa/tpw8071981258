@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+    {% if error %}
+
+        <p style="color: #1c7430; background: #0c5460">Error: Insert was incorrectly done! Name and eMail must be >0 characters.</p>
+
+    {% endif %}
+
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form.as_table}}
+        <input type="submit" value="Search">
+    </form>
+
+    <br>
+
+    <table border="1">
+            <tr>
+                <th>Nome</th>
+                <th>Info</th>
+            </tr>
+            {% for result in query %}
+                <tr>
+                        <td>{{ result.name }}</td>
+                        <td>{{ result.description }}</td>
+
+                </tr>
+            {% endfor %}
+        </table>
+
+{% endblock %}

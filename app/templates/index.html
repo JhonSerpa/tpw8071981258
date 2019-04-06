@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'content/style.css' %}">
+
+    <!--Custom style for template -->
+    <style type="text/css">
+
+        .demo-item .image img {
+            border: 1px solid #f1f1f1;
+            height: 100%;
+
+        }
+
+        .demo-item:hover .image {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            height: 80%;
+
+        }
+
+        .demo-item .image::after {
+            display: none;
+            height: 100%;
+
+        }
+
+        .demo-item .image i {
+            display: none;
+            height: 100%;
+
+        }
+
+        .single-feature .content h4 {
+            line-height: 1;
+            height: 10%;
+        }
+
+        .demo-item .title a:hover {
+            color: #061da4;
+            height: 10%;
+        }
+
+        .demo-item .title {
+            text-transform: capitalize;
+            font-weight: 500;
+            margin-top: 20px;
+            height: 30%;
+        }
+
+        .demo-item .title span {
+            font-size: 13px;
+            height: 10%;
+        }
+
+        .hero-content h1 {
+            text-transform: none;
+        }
+
+        .hero-content h1 strong {
+            text-transform: capitalize;
+        }
+
+        .logo a, .stick .logo a {
+            width: auto;
+            height: 100%;
+        }
+
+        @media only screen and (max-width: 479px) {
+            .logo a, .stick .logo a {
+                width: 140px;
+            }
+        }
+
+    .lels{
+        font-family: "Bitstream Vera Sans Mono", Monaco, "Courier New", Courier, monospace;
+        font-size: 15px;
+    }
+
+    </style>
+
+    <div class="row" style="padding-bottom: 10px" class="lels">
+        <form action="." method="post">
+            {% csrf_token %}
+            <label class="lels">{{ form.Search.label}}</label>
+            {{ form.Search }}
+            <input type="submit" class="btn lels" value="Search">
+        </form>
+    </div>
+
+
+    <!--Best rated movies list-->
+    <div id="moview" class="row">
+        {% for movies in posts %}
+            <div id="moview" class="col-lg-4 col-md-4 col-sm-4 mb-50">
+                <div class="demo-item">
+                    <a href="{% url 'reviews' %}?mediaid={{ movies.id }}" class="image" style="height: 90%;width: 100%"
+                       target="_blank">
+                        <img src="{{ movies.img.url }}" alt=""><i class="fa fa-long-arrow-right"></i></a>
+
+
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

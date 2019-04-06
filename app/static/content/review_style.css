@@ -1,0 +1,54 @@
+
+.demo-item .image img {
+    border: 1px solid #f1f1f1;
+    height: 100%;
+    width: 100%;
+}
+
+.demo-item:hover .image {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.demo-item .image::after {
+    display: none;
+}
+
+.demo-item .image i {
+    display: none;
+}
+
+.single-feature .content h4 {
+    line-height: 1;
+}
+
+.demo-item .title a:hover {
+    color: #061da4;
+}
+
+.demo-item .title {
+    text-transform: capitalize;
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+.demo-item .title span {
+    font-size: 13px;
+}
+
+.hero-content h1 {
+    text-transform: none;
+}
+
+.hero-content h1 strong {
+    text-transform: capitalize;
+}
+
+.logo a, .stick .logo a {
+    width: auto;
+}
+
+@media only screen and (max-width: 479px) {
+    .logo a, .stick .logo a {
+        width: 140px;
+    }
+}

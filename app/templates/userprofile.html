@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    {% if user %}
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <table class="table" width="100%">
+                        <tr>
+                           <th width="30%">Username</th>
+                            <td>{{ user.authentication.username }}</td>
+                        </tr>
+                        <tr>
+                           <th width="30%">Email</th>
+                            <td>{{ user.authentication.email}}</td>
+                        </tr>
+                        <tr>
+                           <th width="30%">Date Joined</th>
+                            <td>{{ user.authentication.date_joined}}</td>
+                        </tr>
+                        <tr>
+                           <th width="30%">Name</th>
+                            <td>{{ user.authentication.first_name}}</td>
+                            <td>{{ user.authentication.last_name}}</td>
+                        </tr>
+                        <tr>
+                           <th width="30%">Last Login</th>
+                            <td>{{ user.authentication.last_login}}</td>
+                        </tr>
+                        <tr>
+                           <th width="30%">User Type</th>
+                            <td>
+                                {% if user.authentication.is_superuser %}
+                                    Superuser
+                                {% else %}
+                                    Regular user
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-6" style="align-content: center">
+                    <p><h5>Profile Image</h5></p>
+                    <img alt="" src="{{ user.img.url }}">
+                </div>
+            </div>
+            <div class="row">
+                <h2>{{ user.authentication.first_name }}'s reviews:</h2>
+
+                {% if reviews %}
+                    <style>
+                        td {
+                            -ms-word-break: break-all;
+                            word-break: break-all;}
+
+                    </style>
+                    <table class="table-striped table-" width="100%">
+                        <thead>
+                            <tr>
+                                <th style="word-wrap: break-word; max-width: 30px">#</th>
+                                <th style="word-wrap: break-word; max-width: 100px">Movie Name</th>
+                                <th style="word-wrap: break-word; max-width: 100px">User Rating</th>
+                                <th style="word-wrap: break-word; max-width: 100px">Review</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                            {% for review in reviews %}
+                                <tr>
+                                    <td>{{ forloop.counter }}   </td>
+                                    <td><a href="{% url 'reviews' %}?mediaid={{ review.media.id }}">{{ review.media.name }}</a></td>
+                                    <td>{{ review.rate }}</td>
+                                    <td>{{ review.review }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                {% else %}
+                    <h3>No reviews yet!</h3>
+                {% endif %}
+                <h3></h3>
+            </div>
+        </div>
+    {% else %}
+        Nooo
+    {% endif %}
+{% endblock %}
+
